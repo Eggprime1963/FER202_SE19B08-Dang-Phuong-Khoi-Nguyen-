@@ -2,6 +2,7 @@
 **/build/
 **/.env
 .vscode/
+.github/
 
 # Exclude GitHub instructions file (for internal use only)
 GITHUB_INSTRUCTIONS.md
