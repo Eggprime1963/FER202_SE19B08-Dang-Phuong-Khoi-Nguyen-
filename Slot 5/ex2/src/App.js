@@ -8,7 +8,6 @@ function App() {
     <div className="App">
       <h1>Array Operations - FER202</h1>
       
-      {/* 1. Display arrays as <ul> */}
       <section>
         <h2>1. Original Arrays</h2>
         
@@ -42,13 +41,11 @@ function App() {
         </div>
       </section>
 
-      {/* 2. Calculate sum of integers in <p> */}
       <section>
         <h2>2. Sum of Integers</h2>
         <p>Sum of all integers: {integerResults.sum}</p>
       </section>
 
-      {/* 3. Sort the int array and display */}
       <section>
         <h2>3. Sorted Integer Array</h2>
         <ul className="sorted-array">
@@ -58,7 +55,6 @@ function App() {
         </ul>
       </section>
 
-      {/* 4. Sort the name array by first letter, then by length */}
       <section>
         <h2>4. Sorted Name Array (by first letter, then length)</h2>
         <ul className="sorted-array">
@@ -68,7 +64,6 @@ function App() {
         </ul>
       </section>
 
-      {/* 5. Filter people whose age is 13-19, count and sum age */}
       <section>
         <h2>5. Teenagers (Age 13-19)</h2>
         <ul>

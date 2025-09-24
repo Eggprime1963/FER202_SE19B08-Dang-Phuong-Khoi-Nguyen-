@@ -12,13 +12,13 @@ code {
     monospace;
 }
 
-/* Left indentation for the main container */
+
 .App {
   margin-left: 40px;
   padding: 20px;
 }
 
-/* 3-grid layout for task 1 (Original Arrays) */
+
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -30,12 +30,12 @@ code {
   padding: 20px;
 }
 
-/* Section spacing */
+
 section {
   margin-bottom: 40px;
 }
 
-/* Sorted arrays in one line */
+
 .sorted-array {
   display: flex;
   flex-wrap: wrap;

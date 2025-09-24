@@ -1,4 +1,4 @@
-// Person object array operations
+
 const personArray = [
   { id: 1, name: "Alice", age: 25 },
   { id: 2, name: "Bob", age: 17 },
@@ -14,13 +14,13 @@ const personArray = [
   { id: 12, name: "Liam", age: 22 }
 ];
 
-// Filter people whose age is 13-19
+
 const teenagers = personArray.filter(person => person.age >= 13 && person.age <= 19);
 
-// Count teenagers
+
 const teenagerCount = teenagers.length;
 
-// Sum of teenager ages
+
 const teenagerAgeSum = teenagers.reduce((total, person) => total + person.age, 0);
 
 console.log("All people:", personArray);
@@ -28,7 +28,7 @@ console.log("Teenagers (13-19):", teenagers);
 console.log("Number of teenagers:", teenagerCount);
 console.log("Sum of teenager ages:", teenagerAgeSum);
 
-// Export for React components
+
 export const personResults = {
   originalArray: personArray,
   teenagers: teenagers,
