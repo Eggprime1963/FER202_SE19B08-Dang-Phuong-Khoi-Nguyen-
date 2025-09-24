@@ -8,11 +8,6 @@ const companies = [
 
 const company0New = { ...companies[0], start: companies[0].start + 1 };
 
-
-function concatAll(...arrays) {
-    return arrays.reduce((result, currentArray) => [...result, ...currentArray], []);
-}
-
 console.log("Required Results:");
 console.log("companies[0]:", JSON.stringify(companies[0]));
 console.log("company0New:", JSON.stringify(company0New));
