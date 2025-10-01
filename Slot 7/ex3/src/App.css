@@ -1,0 +1,92 @@
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.App-header {
+  background-color: #e8ecf0;
+  padding: 20px;
+  text-align: left;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.navbar {
+  display: flex;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  text-align: left;
+}
+
+.navbar a, .navbar span {
+  padding: 10px 15px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.navbar .active {
+  color: #0d6efd;
+}
+
+.navbar .link {
+  color: #0d6efd;
+}
+
+.navbar .disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.grid-container {
+  margin: 20px;
+  border: 1px solid #ccc;
+}
+
+.row {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.col {
+  padding: 20px;
+  background-color: #d3d3d3;
+  border-right: 1px solid #ccc;
+  text-align: left;
+}
+
+.col:last-child {
+  border-right: none;
+}
+
+.row-1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.App-footer {
+  background-color: #c8bbb5;
+  padding: 10px;
+  color: #333;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
