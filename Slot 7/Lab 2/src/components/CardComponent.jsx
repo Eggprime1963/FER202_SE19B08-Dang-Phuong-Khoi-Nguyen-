@@ -1,4 +1,3 @@
-import { Card, Button } from "react-bootstrap";
 import menu1 from "../assets/images/menu1.jpg";
 import menu2 from "../assets/images/menu2.jpg";
 import menu3 from "../assets/images/menu3.jpg";
@@ -17,7 +16,7 @@ function CardComponent() {
       <h1 className="text-left p-3">Our Menu</h1>
       <div className="d-flex">
         {menuItems.map((item) => (
-          <Card style={{ width: "18rem" }} className="mx-3 position-relative" key={item.id}>
+          <div className="card mx-3 position-relative" style={{ width: "18rem" }} key={item.id}>
             {item.label && (
               <span 
                 className="position-absolute badge rounded-0" 
@@ -31,10 +30,10 @@ function CardComponent() {
                 {item.label}
               </span>
             )}
-            <Card.Img variant="top" src={item.img} />
-            <Card.Body>
-              <Card.Title>{item.title}</Card.Title>
-              <Card.Text>
+            <img src={item.img} className="card-img-top" alt={item.title} />
+            <div className="card-body">
+              <h5 className="card-title">{item.title}</h5>
+              <p className="card-text">
                 {item.oldPrice ? (
                   <>
                     <span className="text-decoration-line-through text-muted me-2">${item.oldPrice}</span>
@@ -43,11 +42,29 @@ function CardComponent() {
                 ) : (
                   <>Price: ${item.price}</>
                 )}
-              </Card.Text>
-              <Button variant="dark" className="w-100 text-center">Buy</Button>
-            </Card.Body>
-          </Card>
+              </p>
+              <button className="btn btn-dark w-100 text-center">Buy</button>
+            </div>
+          </div>
         ))}
+      </div>
+      <div>
+        <div className="modal fade" id="pizzaModal" aria-hidden="true">
+          <div className="modal-header"></div>
+          <div className="modal-dialog">
+            <div className="modal-content bg-white">
+              <p>Order details:</p>
+              <div className="mb-3">
+                <label className="form-label">Quantity</label>
+                <input type="number" className="form-control" id="quantity" defaultValue={1} min={1} max={10}/>
+              </div>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary">Close</button>
+            <button type="button" className="btn btn-success">Confirm Order</button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,31 @@
+/* Movie card styling */
+.movie-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.movie-card .card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+
+.movie-card .card-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.rating {
+  margin-top: 0.5rem;
+}
+
+.movie-card .badge {
+  font-weight: normal;
+  padding: 0.5em 0.8em;
+}
