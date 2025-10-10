@@ -1,29 +1,5 @@
 import "./Carousel.css";
-
-// Default movie data - Recent Oscar-winning movies
-const defaultMovies = [
-  {
-    id: 1,
-    title: "Everything Everywhere All at Once",
-    genre: "Best Picture 2023",
-    image: "https://via.placeholder.com/800x400?text=Everything+Everywhere+All+at+Once",
-    description: "A Chinese immigrant is swept up in an insane adventure, in which she alone can save the world by exploring other universes."
-  },
-  {
-    id: 2,
-    title: "Oppenheimer",
-    genre: "Best Picture 2024",
-    image: "https://via.placeholder.com/800x400?text=Oppenheimer",
-    description: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb."
-  },
-  {
-    id: 3,
-    title: "CODA",
-    genre: "Best Picture 2022",
-    image: "https://via.placeholder.com/800x400?text=CODA",
-    description: "A hearing child of deaf adults must choose between pursuing her passion for music and her family's struggling fishing business."
-  }
-];
+import { featuredMovies as defaultMovies } from "../../data/carousel";
 
 function HomeCarousel({ movies = defaultMovies }) {
   return (
@@ -47,8 +23,13 @@ function HomeCarousel({ movies = defaultMovies }) {
           <div className={`carousel-item ${index === 0 ? "active" : ""}`} key={movie.id}>
             <img
               className="d-block w-100"
-              src={movie.image}
+              src={movie.poster || movie.image || `https://via.placeholder.com/800x400?text=${movie.title}`}
               alt={movie.title}
+              onError={(e) => {
+                console.log("Carousel image failed to load:", e.target.src);
+                e.target.onerror = null;
+                e.target.src = `https://via.placeholder.com/800x400?text=${movie.title}`;
+              }}
             />
             <div className="carousel-caption">
               <h3>{movie.title}</h3>
