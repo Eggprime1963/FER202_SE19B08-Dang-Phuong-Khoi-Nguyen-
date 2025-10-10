@@ -1,0 +1,41 @@
+/* NavBar styling */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 0.75rem 1rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.nav-icon {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.3rem;
+  display: inline-flex;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-icon:hover {
+  color: #fff;
+}
+
+.dropdown-menu {
+  padding: 0.5rem 0;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+.dropdown-item:active {
+  background-color: #343a40;
+}
+
+.badge {
+  font-size: 0.65rem;
+}

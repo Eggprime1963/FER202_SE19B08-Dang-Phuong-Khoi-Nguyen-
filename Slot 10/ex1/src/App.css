@@ -1,0 +1,96 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure content fills available space */
+.App > .container {
+  flex: 1;
+  padding-top: 80px; /* Space for fixed navbar */
+}
+
+/* General styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #2c3e50;
+  background-color: #f8f9fa;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Buttons styling */
+.btn-primary {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+.btn-outline-primary {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+/* Links styling */
+a {
+  color: #e74c3c;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #c0392b;
+  text-decoration: underline;
+}
+
+/* Utility classes */
+.text-primary {
+  color: #e74c3c !important;
+}
+
+.bg-primary {
+  background-color: #e74c3c !important;
+}
+
+/* Fix for main content to account for fixed navbar */
+main {
+  padding-top: 60px;
+}
+
+/* Make images responsive by default */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Page transition effect */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}

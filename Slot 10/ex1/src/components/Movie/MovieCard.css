@@ -1,0 +1,64 @@
+/* Movie card styling */
+.movie-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.movie-card .card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+
+.movie-card .card-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.movie-card .description {
+  font-size: 0.9rem;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card .movie-meta {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.movie-card .badge {
+  font-weight: normal;
+  padding: 0.5em 0.8em;
+}
+
+/* Modal styling */
+.modal.show {
+  display: block;
+}
+
+/* Toast styling */
+.toast-container {
+  z-index: 11;
+}
+
+.toast {
+  opacity: 1;
+}
+
+/* Bootstrap Icons (using CSS for compatibility) */
+.bi-heart::before {
+  content: "♡";
+  font-size: 1.1rem;
+  vertical-align: sub;
+}
