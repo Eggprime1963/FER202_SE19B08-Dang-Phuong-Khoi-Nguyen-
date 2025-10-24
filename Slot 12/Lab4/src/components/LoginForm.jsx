@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Form, Button, Card, Modal } from 'react-bootstrap';
 
 // Initial state
 const initialState = {
@@ -113,24 +113,40 @@ function LoginForm() {
   };
 
   return (
-    <Card className="p-4">
-      <Card.Title className="text-center mb-4">Đăng Nhập</Card.Title>
-      
-      {isSubmitted && isSuccessful ? (
-        <div className="text-center">
-          <Alert variant="success">
-            Đăng nhập thành công! Chào mừng trở lại.
-          </Alert>
-          <Button variant="outline-primary" onClick={handleReset}>
+    <>
+      <Modal show={isSubmitted && isSuccessful} onHide={handleReset} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Đăng Nhập Thành Công</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-0">Đăng nhập thành công! Chào mừng trở lại, {email}.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleReset}>
             Đăng nhập lại
           </Button>
-        </div>
-      ) : (
+        </Modal.Footer>
+      </Modal>
+      <Card className="p-4" style={{ maxWidth: '500px', margin: '0 auto' }}>
+        <Card.Title className="mb-4">Đăng Nhập</Card.Title>
+
         <Form onSubmit={handleSubmit}>
-          {errorMessage && (
-            <Alert variant="danger">{errorMessage}</Alert>
+          {errorMessage && !isSuccessful && (
+             <Modal show={isSubmitted && !isSuccessful} onHide={handleReset} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Đăng Nhập Thất Bại</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <p className="mb-0">{errorMessage}</p>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="primary" onClick={handleReset}>
+                  Đăng nhập lại
+                </Button>
+              </Modal.Footer>
+            </Modal>
           )}
-          
+
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -138,8 +154,7 @@ function LoginForm() {
               placeholder="Nhập email"
               value={email}
               onChange={handleEmailChange}
-              isInvalid={!isEmailValid}
-            />
+              isInvalid={!isEmailValid} />
             {!isEmailValid && (
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập email hợp lệ.
@@ -154,15 +169,14 @@ function LoginForm() {
               placeholder="Nhập mật khẩu"
               value={password}
               onChange={handlePasswordChange}
-              isInvalid={!isPasswordValid}
-            />
+              isInvalid={!isPasswordValid} />
             {!isPasswordValid && (
               <Form.Control.Feedback type="invalid">
                 Mật khẩu phải có ít nhất 6 ký tự.
               </Form.Control.Feedback>
             )}
           </Form.Group>
-          
+
           <div className="d-flex justify-content-between">
             <Button variant="primary" type="submit">
               Đăng nhập
@@ -171,16 +185,15 @@ function LoginForm() {
               Xóa
             </Button>
           </div>
-          
-          <div className="mt-3 text-center">
+
+          <div className="mt-3">
             <p className="text-muted">
               <small>* Đăng nhập với email: user@example.com và mật khẩu: password123</small>
             </p>
           </div>
         </Form>
-      )}
-    </Card>
-  );
-}
+      </Card></>
+  )
+};
 
 export default LoginForm;

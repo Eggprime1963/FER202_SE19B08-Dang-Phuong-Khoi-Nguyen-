@@ -112,7 +112,7 @@ function quizReducer(state, action) {
   }
 }
 
-function QuestionBank() {
+function QuestionBank({ isActive = false }) {
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const { 
     questions, 
@@ -143,16 +143,17 @@ function QuestionBank() {
     }
   }, [showScore, score, highScore]);
 
-  // Timer effect
+  // Timer effect - only run when the tab is active
   useEffect(() => {
-    if (showScore) return;
+    // Don't start timer if tab is not active or quiz is completed
+    if (!isActive || showScore) return;
     
     // Clear any existing timer
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
 
-    // Start a new timer
+    // Start a new timer only when the tab is active
     timerRef.current = setInterval(() => {
       dispatch({ type: "TIMER_TICK" });
     }, 1000);
@@ -163,10 +164,12 @@ function QuestionBank() {
         clearInterval(timerRef.current);
       }
     };
-  }, [currentQuestion, showScore]);
+  }, [currentQuestion, showScore, isActive]);
 
   // When timer reaches zero, wait 2 seconds then move to next question
   useEffect(() => {
+    if (!isActive) return; // Only process if tab is active
+    
     if (timeLeft === 0 && !selectedOption) {
       const timeout = setTimeout(() => {
         handleNextQuestion();
@@ -174,7 +177,7 @@ function QuestionBank() {
       
       return () => clearTimeout(timeout);
     }
-  }, [timeLeft, selectedOption]);
+  }, [timeLeft, selectedOption, isActive]);
 
   const handleOptionSelect = (option) => {
     if (!selectedOption && timeLeft > 0) {

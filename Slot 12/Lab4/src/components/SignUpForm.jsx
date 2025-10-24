@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { Form, Button, Card, Alert, Row, Col } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Row, Col, Modal } from 'react-bootstrap';
 
 // Initial state
 const initialState = {
@@ -172,26 +172,34 @@ function SignUpForm() {
   };
 
   return (
-    <Card className="p-4">
-      <Card.Title className="text-center mb-4">Đăng Ký Tài Khoản</Card.Title>
-      
-      {isSubmitted && isSuccessful ? (
-        <div className="text-center">
-          <Alert variant="success">
+    <>
+      {/* Success Modal */}
+      <Modal show={isSubmitted && isSuccessful} onHide={handleReset} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Đăng Ký Thành Công</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Alert variant="success" className="mb-3">
             Đăng ký thành công! Chào mừng {fullName}.
           </Alert>
-          <div className="mt-3">
+          <div>
             <h5>Thông tin đăng ký:</h5>
             <p><strong>Họ và tên:</strong> {fullName}</p>
             <p><strong>Email:</strong> {email}</p>
             <p><strong>Số điện thoại:</strong> {phoneNumber || 'Không cung cấp'}</p>
             <p><strong>Giới tính:</strong> {gender === 'male' ? 'Nam' : gender === 'female' ? 'Nữ' : 'Khác'}</p>
           </div>
-          <Button variant="outline-primary" onClick={handleReset}>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleReset}>
             Đăng ký tài khoản mới
           </Button>
-        </div>
-      ) : (
+        </Modal.Footer>
+      </Modal>
+      
+      <Card className="p-4" style={{ maxWidth: '650px', margin: '0 auto' }}>
+        <Card.Title className="mb-4">Đăng Ký Tài Khoản</Card.Title>
+        
         <Form onSubmit={handleSubmit} noValidate>
           {/* Full Name */}
           <Form.Group className="mb-3" controlId="formFullName">
@@ -321,13 +329,14 @@ function SignUpForm() {
           </Form.Group>
 
           {/* Terms Agreement */}
-          <Form.Group className="mb-3" controlId="formAgreement">
+          <Form.Group className="mb-3 text-center" controlId="formAgreement">
             <Form.Check
               type="checkbox"
               label="Tôi đồng ý với các điều khoản dịch vụ"
               checked={agreement}
               onChange={handleChange('agreement')}
               isInvalid={!validation.agreement.isValid}
+              className="d-inline-flex align-items-center"
             />
             {!validation.agreement.isValid && (
               <div className="text-danger small mt-1">
@@ -346,8 +355,8 @@ function SignUpForm() {
             </Button>
           </div>
         </Form>
-      )}
-    </Card>
+      </Card>
+    </>
   );
 }
 
