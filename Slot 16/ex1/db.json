@@ -1,0 +1,148 @@
+{
+  "accounts": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123456",
+      "fullName": "Administrator",
+      "email": "admin@movieapp.com",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "user1",
+      "password": "password123",
+      "fullName": "John Doe",
+      "email": "john@example.com",
+      "role": "user"
+    },
+    {
+      "id": "3",
+      "username": "manager",
+      "password": "manager123",
+      "fullName": "Jane Smith",
+      "email": "jane@movieapp.com",
+      "role": "manager"
+    }
+  ],
+  "genres": [
+    {
+      "id": "1",
+      "name": "Sci-Fi"
+    },
+    {
+      "id": "2",
+      "name": "Comedy"
+    },
+    {
+      "id": "3",
+      "name": "Drama"
+    },
+    {
+      "id": "4",
+      "name": "Horror"
+    },
+    {
+      "id": "5",
+      "name": "Romance"
+    },
+    {
+      "id": "6",
+      "name": "Action"
+    },
+    {
+      "id": "7",
+      "name": "Thriller"
+    }
+  ],
+  "movies": [
+    {
+      "id": "1",
+      "title": "Galactic Wars",
+      "description": "Epic space battles decide the fate of a fractured galaxy as rival factions clash for control.",
+      "poster": "/images/movie1.jpg",
+      "genreId": 1,
+      "year": 2022,
+      "country": "USA",
+      "duration": 132
+    },
+    {
+      "id": "2",
+      "title": "Laugh Out Loud",
+      "description": "A feel-good comedy about friendship, failure, and second chances in a small town.",
+      "poster": "/images/movie2.jpg",
+      "genreId": 2,
+      "year": 2021,
+      "country": "UK",
+      "duration": 105
+    },
+    {
+      "id": "3",
+      "title": "Deep Blue",
+      "description": "A gripping survival drama set far from shore when a voyage goes wrong.",
+      "poster": "/images/movie3.jpg",
+      "genreId": 3,
+      "year": 2019,
+      "country": "Australia",
+      "duration": 118
+    },
+    {
+      "id": "4",
+      "title": "Haunted House",
+      "description": "A teen dares to spend one night in a house with a dark past—and uncovers the truth.",
+      "poster": "/images/movie4.jpg",
+      "genreId": 4,
+      "year": 2020,
+      "country": "Canada",
+      "duration": 98
+    },
+    {
+      "title": "City of Love",
+      "genre_id": 5,
+      "year": 2018,
+      "duration": 1,
+      "director": "sbndf",
+      "description": "Two strangers meet in a sleepless city and rewrite their plans for life and love.",
+      "id": "5"
+    },
+    {
+      "id": "7",
+      "title": "Street Runner",
+      "description": "An ex-courier is forced back into the fast lane for one last job across the neon city.",
+      "poster": "/images/movie7.jpg",
+      "genreId": 6,
+      "year": 2021,
+      "country": "Japan",
+      "duration": 102
+    },
+    {
+      "id": "8",
+      "title": "Hidden Truth",
+      "description": "A reporter unravels a conspiracy that powerful people will do anything to keep buried.",
+      "poster": "/images/movie8.jpg",
+      "genreId": 7,
+      "year": 2022,
+      "country": "Germany",
+      "duration": 115
+    },
+    {
+      "id": "9",
+      "title": "Kingdom of Ash",
+      "description": "A fallen prince must unite rival clans to reclaim a cursed land and his destiny.",
+      "poster": "/images/movie9.jpg",
+      "genreId": 2,
+      "year": 2020,
+      "country": "New Zealand",
+      "duration": 141
+    },
+    {
+      "id": "5e53",
+      "title": "Mưa Đỏ",
+      "genre_id": 6,
+      "year": 2025,
+      "duration": 124,
+      "director": "Đặng Thái Huyền",
+      "description": "Mưa đỏ là một bộ phim điện ảnh Việt Nam thuộc thể loại lịch sử – chiến tranh – chính kịch ra mắt năm 2025 do Đặng Thái Huyền làm đạo diễn, được chuyển thể từ tiểu thuyết cùng tên của nhà văn Chu Lai và đồng thời lấy cảm hứng từ sự kiện 81 ngày đêm chiến đấu để bảo vệ Thành cổ Quảng Trị năm 1972."
+    }
+  ]
+}
