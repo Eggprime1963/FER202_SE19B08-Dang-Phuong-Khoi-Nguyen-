@@ -60,32 +60,38 @@ const MovieForm = ({ show, onHide, editingMovie = null }) => {
 
   const validateForm = () => {
     const newErrors = {};
+    const missingRequiredFields = [];
 
     if (!formData.title.trim()) {
       newErrors.title = 'Tên phim không được để trống';
+      missingRequiredFields.push('title');
     } else if (formData.title.length < 2) {
       newErrors.title = 'Tên phim phải có ít nhất 2 ký tự';
     }
 
     if (!formData.genre_id) {
       newErrors.genre_id = 'Vui lòng chọn thể loại';
+      missingRequiredFields.push('genre_id');
     }
 
     const currentYear = new Date().getFullYear();
     if (!formData.year) {
       newErrors.year = 'Năm sản xuất không được để trống';
+      missingRequiredFields.push('year');
     } else if (formData.year < 1900 || formData.year > currentYear + 5) {
       newErrors.year = `Năm sản xuất phải từ 1900 đến ${currentYear + 5}`;
     }
 
     if (!formData.duration) {
       newErrors.duration = 'Thời lượng không được để trống';
+      missingRequiredFields.push('duration');
     } else if (formData.duration < 1 || formData.duration > 600) {
       newErrors.duration = 'Thời lượng phải từ 1 đến 600 phút';
     }
 
     if (!formData.director.trim()) {
       newErrors.director = 'Tên đạo diễn không được để trống';
+      missingRequiredFields.push('director');
     } else if (formData.director.length < 2) {
       newErrors.director = 'Tên đạo diễn phải có ít nhất 2 ký tự';
     }
@@ -95,6 +101,7 @@ const MovieForm = ({ show, onHide, editingMovie = null }) => {
     }
 
     setErrors(newErrors);
+    
     return Object.keys(newErrors).length === 0;
   };
 
@@ -145,6 +152,7 @@ const MovieForm = ({ show, onHide, editingMovie = null }) => {
     setErrors({});
     onHide();
   };
+
 
   return (
     <Modal show={show} onHide={handleClose} size="lg" backdrop="static">
@@ -313,6 +321,8 @@ const MovieForm = ({ show, onHide, editingMovie = null }) => {
           </Button>
         </Modal.Footer>
       </Form>
+
+      {/* Missing Fields Modal */}
     </Modal>
   );
 };

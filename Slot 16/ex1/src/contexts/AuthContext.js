@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo } from 'react';
 import { authApi } from '../api';
 
 // Auth state
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
 
   // Login function
-  const login = async (username, password) => {
+  const login = useCallback(async (username, password) => {
     dispatch({ type: 'LOGIN_START' });
     
     try {
@@ -98,18 +98,18 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
       return { success: false, error: error.message };
     }
-  };
+  }, []);
 
   // Logout function
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem('user');
     dispatch({ type: 'LOGOUT' });
-  };
+  }, []);
 
   // Clear error function
-  const clearError = () => {
+  const clearError = useCallback(() => {
     dispatch({ type: 'CLEAR_ERROR' });
-  };
+  }, []);
 
   // Check for stored user on mount
   useEffect(() => {
@@ -125,12 +125,12 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // Dispatch object with all auth functions
-  const authDispatch = {
+  // Dispatch object with all auth functions - memoized to prevent infinite re-renders
+  const authDispatch = useMemo(() => ({
     login,
     logout,
     clearError
-  };
+  }), [login, logout, clearError]);
 
   return (
     <AuthStateContext.Provider value={state}>

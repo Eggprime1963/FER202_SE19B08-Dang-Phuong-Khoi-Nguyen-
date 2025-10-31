@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import { useMovieState, useMovieDispatch } from '../contexts/MovieContext';
 import { useAuthState } from '../contexts/AuthContext';
+import MoviePosterModal from './MoviePosterModal';
 
 const MovieTable = ({ onEdit }) => {
   const movieState = useMovieState();
@@ -26,15 +27,30 @@ const MovieTable = ({ onEdit }) => {
     deleting: false
   });
 
-  const getGenreName = (genreId) => {
-    // Handle both string and number IDs, and convert to string for comparison
-    const genre = genres.find(g => g.id === String(genreId));
+  const [posterModal, setPosterModal] = useState({
+    show: false,
+    movie: null
+  });
+
+  const getGenreName = (id) => {
+    // Debug logging
+    console.log('Getting genre for ID:', id, 'Type:', typeof id);
+    console.log('Available genres:', genres);
+    
+    // Handle both string and number IDs with flexible comparison
+    const genre = genres.find(g => 
+      g.id === id || 
+      g.id === Number(id) || 
+      String(g.id) === String(id)
+    );
+    
+    console.log('Found genre:', genre);
     return genre ? genre.name : 'Không xác định';
   };
 
   const getMovieGenreId = (movie) => {
-    // Handle both genreId and genre_id field names
-    return movie.genre_id || movie.genreId;
+    // Handle both genreId and genre_id field names, and ensure we have a valid ID
+    return movie.genreId || movie.genre_id || null;
   };
 
   const getDurationBadge = (duration) => {
@@ -86,6 +102,20 @@ const MovieTable = ({ onEdit }) => {
     });
   };
 
+  const handlePosterClick = (movie) => {
+    setPosterModal({
+      show: true,
+      movie
+    });
+  };
+
+  const handlePosterClose = () => {
+    setPosterModal({
+      show: false,
+      movie: null
+    });
+  };
+
   if (loading) {
     return (
       <div className="text-center py-5">
@@ -130,9 +160,7 @@ const MovieTable = ({ onEdit }) => {
               <th style={{ width: '10%' }}>Năm</th>
               <th style={{ width: '12%' }}>Thời lượng</th>
               <th style={{ width: '18%' }}>Đạo diễn</th>
-              {(canEdit() || canDelete()) && (
-                <th style={{ width: '15%' }} className="text-center">Thao tác</th>
-              )}
+              <th style={{ width: '15%' }} className="text-center">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -145,25 +173,28 @@ const MovieTable = ({ onEdit }) => {
                   <td className="align-middle">
                     <div>
                       <strong>{movie.title}</strong>
-                      {movie.description && (
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip>
-                              {movie.description.length > 100 
-                                ? `${movie.description.substring(0, 100)}...`
-                                : movie.description
-                              }
-                            </Tooltip>
-                          }
-                        >
-                          <Badge bg="info" className="ms-2" style={{ cursor: 'pointer' }}>
-                            📖
-                          </Badge>
-                        </OverlayTrigger>
-                      )}
+                      <div className="mt-1">
+                        {movie.description && (
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip>
+                                {movie.description.length > 100 
+                                  ? `${movie.description.substring(0, 100)}...`
+                                  : movie.description
+                                }
+                              </Tooltip>
+                            }
+                          >
+                            <Badge bg="info" className="me-2" style={{ cursor: 'pointer' }}>
+                              📖
+                            </Badge>
+                          </OverlayTrigger>
+                        )}
+                      </div>
                     </div>
                   </td>
+
                   <td className="align-middle">
                     <Badge bg="secondary">
                       {getGenreName(getMovieGenreId(movie))}
@@ -182,41 +213,55 @@ const MovieTable = ({ onEdit }) => {
                   <td className="align-middle">
                     <small>{movie.director}</small>
                   </td>
-                  {(canEdit() || canDelete()) && (
                     <td className="align-middle text-center">
                       <div className="btn-group" size="sm">
-                        {canEdit() && (
-                          <OverlayTrigger
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={<Tooltip>Xem poster phim</Tooltip>}
+                        >
+                          <Badge 
+                            bg="warning" 
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => handlePosterClick(movie)}
+                          >
+                            🎬
+                          </Badge>
+                        </OverlayTrigger>
+                        {(canEdit() || canDelete()) && (
+                          <>
+                          {canEdit() && (
+                            <OverlayTrigger
                             placement="top"
                             overlay={<Tooltip>Chỉnh sửa phim</Tooltip>}
-                          >
-                            <Button
-                              variant="outline-warning"
-                              size="sm"
-                              onClick={() => onEdit(movie)}
                             >
-                              ✏️
-                            </Button>
-                          </OverlayTrigger>
-                        )}
+                              <Button
+                                variant="outline-warning"
+                                size="sm"
+                                onClick={() => onEdit(movie)}
+                              >
+                                ✏️
+                              </Button>
+                            </OverlayTrigger>
+                          )}
                         
-                        {canDelete() && (
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={<Tooltip>Xóa phim</Tooltip>}
-                          >
-                            <Button
-                              variant="outline-danger"
-                              size="sm"
-                              onClick={() => handleDeleteClick(movie)}
+                          {canDelete() && (
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={<Tooltip>Xóa phim</Tooltip>}
                             >
-                              🗑️
-                            </Button>
-                          </OverlayTrigger>
-                        )}
+                              <Button
+                                variant="outline-danger"
+                                size="sm"
+                                onClick={() => handleDeleteClick(movie)}
+                              >
+                                🗑️
+                              </Button>
+                            </OverlayTrigger>
+                            )}
+                            </>
+                          )}
                       </div>
                     </td>
-                  )}
                 </tr>
               );
             })}
@@ -277,6 +322,13 @@ const MovieTable = ({ onEdit }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Movie Poster Modal */}
+      <MoviePosterModal
+        show={posterModal.show}
+        onHide={handlePosterClose}
+        movie={posterModal.movie}
+      />
     </>
   );
 };

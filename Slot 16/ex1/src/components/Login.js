@@ -19,9 +19,11 @@ const Login = () => {
     clearError && clearError();
   }, [clearError]);
 
-  // Redirect if already authenticated
+  // Redirect immediately when user logs in
   useEffect(() => {
     if (user) {
+      // Set flag in sessionStorage to show welcome modal on movies page
+      sessionStorage.setItem('showWelcomeModal', 'true');
       navigate('/movies');
     }
   }, [user, navigate]);
@@ -37,7 +39,7 @@ const Login = () => {
 
     const result = await login(credentials.username.trim(), credentials.password);
     if (result.success) {
-      navigate('/movies');
+      // Navigation will be handled by useEffect
     } else {
       setErrorMsg(result.error || 'Đăng nhập thất bại.');
       setShowErrorModal(true);
@@ -168,6 +170,7 @@ const Login = () => {
           <Button variant="secondary" onClick={closeErrorModal}>Đóng</Button>
         </Modal.Footer>
       </Modal>
+
     </Container>
   );
 };

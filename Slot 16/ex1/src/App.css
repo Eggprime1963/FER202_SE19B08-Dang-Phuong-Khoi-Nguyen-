@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+/* Modal backdrop blur effect */
+.modal-backdrop-blur {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  transition: backdrop-filter 0.3s ease-in-out;
+}

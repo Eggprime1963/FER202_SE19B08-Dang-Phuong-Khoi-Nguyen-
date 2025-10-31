@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Alert, Spinner, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert, Spinner, Badge, Modal } from 'react-bootstrap';
 import MovieForm from './MovieForm';
 import MovieTable from './MovieTable';
 import FilterBar from './FilterBar';
@@ -17,6 +17,23 @@ const MovieManager = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingMovie, setEditingMovie] = useState(null);
   const [initialized, setInitialized] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
+  // Check for welcome modal flag from login
+  useEffect(() => {
+    const shouldShowWelcome = sessionStorage.getItem('showWelcomeModal');
+    if (shouldShowWelcome === 'true') {
+      setShowWelcomeModal(true);
+      sessionStorage.removeItem('showWelcomeModal'); // Clear the flag
+      
+      // Auto-close welcome modal after 3 seconds
+      const timer = setTimeout(() => {
+        setShowWelcomeModal(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   useEffect(() => {
     const initializeData = async () => {
@@ -49,6 +66,10 @@ const MovieManager = () => {
   const handleCloseForm = () => {
     setShowForm(false);
     setEditingMovie(null);
+  };
+
+  const handleCloseWelcomeModal = () => {
+    setShowWelcomeModal(false);
   };
 
   const canAdd = () => {
@@ -186,6 +207,23 @@ const MovieManager = () => {
           </Col>
         </Row>
       )}
+
+      {/* Welcome Modal */}
+      <Modal show={showWelcomeModal} onHide={handleCloseWelcomeModal} centered>
+        <Modal.Header closeButton className="bg-success text-white">
+          <Modal.Title>🎉 Đăng nhập thành công!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center py-4">
+          <h4>Chào mừng, {user?.username}!</h4>
+          <p className="text-muted mb-3">
+            Vai trò: <Badge bg="primary">{user?.role}</Badge>
+          </p>
+          <p className="mb-0">Chào mừng bạn đến với hệ thống quản lý phim!</p>
+          <div className="mt-3">
+            <small className="text-muted">Modal sẽ tự động đóng sau 3 giây...</small>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };
