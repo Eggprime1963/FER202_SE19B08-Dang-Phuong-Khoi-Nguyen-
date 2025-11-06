@@ -3,6 +3,7 @@
 **/.env
 .vscode/
 .github/
+PE/
 
 # Exclude GitHub instructions file (for internal use only)
 GITHUB_INSTRUCTIONS.md
