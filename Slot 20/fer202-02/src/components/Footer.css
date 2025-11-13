@@ -1,0 +1,56 @@
+/* Footer basic styling */
+footer {
+  background-color: #343a40 !important; /* Dark background */
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+  border-top: 1px solid #ddd;
+  color: #ffffff !important;
+  font-size: 0.95rem;
+}
+
+/* Add spacing between lines */
+footer p {
+  margin: 0.25rem 0;
+  color: #ffffff !important;
+}
+
+/* Style the email link */
+footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Footer Carousel Styles */
+footer .carousel-item img {
+  height: 200px;
+  object-fit: cover;
+}
+
+footer .carousel-caption {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+footer .carousel-caption h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: #ffffff !important;
+}
+
+footer .carousel-caption p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+  color: #ffffff !important;
+}
+
+footer .carousel-control-prev-icon,
+footer .carousel-control-next-icon {
+  filter: invert(1);
+}
