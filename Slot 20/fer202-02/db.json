@@ -15,12 +15,12 @@
   ],
   "expenses": [
     {
-      "id": "2",
-      "userId": "1",
       "name": "Electricity Bill",
-      "amount": 450000,
+      "amount": 45000,
       "category": "Utilities",
-      "date": "2025-10-03"
+      "date": "2025-10-03",
+      "userId": "1",
+      "id": "2"
     },
     {
       "id": "3",

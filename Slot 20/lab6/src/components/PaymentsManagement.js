@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   createPayment,
   fetchPayments,
   clearError,
-  updatePaymentStatus,
   clearPayments,
   selectPayments,
   selectPaymentsLoading,
@@ -27,72 +26,11 @@ const PaymentsManagement = () => {
   
   const [newPayment, setNewPayment] = useState({
     amount: '',
-    description: '',
-    userId: '',
-    type: 'TUITION'
+    courseName: '',
+    semester: '',
+    userId: '1',
+    date: new Date().toISOString().split('T')[0]
   })
-
-  // Override fetch for demo
-  useEffect(() => {
-    const originalFetch = window.fetch
-    
-    // Mock data for demonstration
-    const mockPayments = [
-      { id: 1, amount: 1500000, description: 'Học phí kỳ 1', status: 'SUCCESS', userId: 1, type: 'TUITION', createdAt: '2024-01-15' },
-      { id: 2, amount: 500000, description: 'Phí thi lại', status: 'PENDING', userId: 2, type: 'EXAM', createdAt: '2024-01-16' },
-      { id: 3, amount: 200000, description: 'Phí học phần', status: 'SUCCESS', userId: 3, type: 'COURSE', createdAt: '2024-01-17' },
-      { id: 4, amount: 2500000, description: 'Học phí kỳ 2', status: 'FAILED', userId: 1, type: 'TUITION', createdAt: '2024-01-18' }
-    ]
-
-    let nextId = 5
-    
-    // Mock fetch function
-    const mockFetch = async (url, options = {}) => {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      if (url === '/api/payments' && options.method === 'POST') {
-        const paymentData = JSON.parse(options.body)
-        
-        // Simulate 402 error for large amounts (demonstrate custom error handling)
-        if (paymentData.amount > 2000000) {
-          return {
-            ok: false,
-            status: 402,
-            json: async () => ({ message: 'Payment Required' })
-          }
-        }
-        
-        const newPayment = {
-          id: nextId++,
-          ...paymentData,
-          status: Math.random() > 0.3 ? 'SUCCESS' : 'PENDING',
-          createdAt: new Date().toISOString().split('T')[0]
-        }
-        
-        return {
-          ok: true,
-          status: 201,
-          json: async () => newPayment
-        }
-      }
-      
-      if (url === '/api/payments') {
-        return {
-          ok: true,
-          status: 200,
-          json: async () => mockPayments
-        }
-      }
-      
-      throw new Error('Not found')
-    }
-    
-    window.fetch = mockFetch
-    
-    return () => {
-      window.fetch = originalFetch
-    }
-  }, [])
 
   const handleFetchPayments = () => {
     dispatch(fetchPayments())
@@ -100,26 +38,31 @@ const PaymentsManagement = () => {
 
   const handleCreatePayment = async (e) => {
     e.preventDefault()
-    if (!newPayment.amount || !newPayment.description) return
+    if (!newPayment.amount || !newPayment.courseName) return
     
     const paymentData = {
       amount: parseFloat(newPayment.amount),
-      description: newPayment.description,
-      userId: parseInt(newPayment.userId) || 1,
-      type: newPayment.type
+      courseName: newPayment.courseName,
+      semester: newPayment.semester,
+      userId: newPayment.userId,
+      date: newPayment.date
     }
     
     await dispatch(createPayment(paymentData))
     
     // Reset form if successful
     if (!error) {
-      setNewPayment({ amount: '', description: '', userId: '', type: 'TUITION' })
+      setNewPayment({ 
+        amount: '', 
+        courseName: '', 
+        semester: '', 
+        userId: '1',
+        date: new Date().toISOString().split('T')[0]
+      })
     }
   }
 
-  const handleUpdateStatus = (paymentId, newStatus) => {
-    dispatch(updatePaymentStatus({ paymentId, status: newStatus }))
-  }
+
 
   const handleClearError = () => {
     dispatch(clearError())
@@ -129,14 +72,7 @@ const PaymentsManagement = () => {
     dispatch(clearPayments())
   }
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'SUCCESS': return 'bg-green-100 text-green-800'
-      case 'PENDING': return 'bg-yellow-100 text-yellow-800'
-      case 'FAILED': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
+
 
   return (
     <div className="p-4">
@@ -169,7 +105,7 @@ const PaymentsManagement = () => {
         </div>
 
         {/* Create Payment Form */}
-        <form onSubmit={handleCreatePayment} className="grid grid-cols-1 md:grid-cols-5 gap-2 items-end">
+        <form onSubmit={handleCreatePayment} className="grid grid-cols-1 md:grid-cols-6 gap-2 items-end">
           <div>
             <label className="block text-sm font-medium mb-1">Amount (VNĐ)</label>
             <input
@@ -182,37 +118,48 @@ const PaymentsManagement = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Description</label>
+            <label className="block text-sm font-medium mb-1">Course Name</label>
             <input
               type="text"
-              value={newPayment.description}
-              onChange={(e) => setNewPayment({ ...newPayment, description: e.target.value })}
+              value={newPayment.courseName}
+              onChange={(e) => setNewPayment({ ...newPayment, courseName: e.target.value })}
               className="w-full px-3 py-2 border rounded"
-              placeholder="Payment description"
+              placeholder="Enter course name"
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Semester</label>
+            <select
+              value={newPayment.semester}
+              onChange={(e) => setNewPayment({ ...newPayment, semester: e.target.value })}
+              className="w-full px-3 py-2 border rounded"
+            >
+              <option value="">Select semester</option>
+              <option value="Fall 2025">Fall 2025</option>
+              <option value="Spring 2026">Spring 2026</option>
+              <option value="Summer 2026">Summer 2026</option>
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">User ID</label>
-            <input
-              type="number"
+            <select
               value={newPayment.userId}
               onChange={(e) => setNewPayment({ ...newPayment, userId: e.target.value })}
               className="w-full px-3 py-2 border rounded"
-              placeholder="User ID"
-            />
+            >
+              <option value="1">User 1 (Nam)</option>
+              <option value="2">User 2 (Hai)</option>
+              <option value="3">User 3 (Thanh)</option>
+            </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Type</label>
-            <select
-              value={newPayment.type}
-              onChange={(e) => setNewPayment({ ...newPayment, type: e.target.value })}
+            <label className="block text-sm font-medium mb-1">Date</label>
+            <input
+              type="date"
+              value={newPayment.date}
+              onChange={(e) => setNewPayment({ ...newPayment, date: e.target.value })}
               className="w-full px-3 py-2 border rounded"
-            >
-              <option value="TUITION">Tuition</option>
-              <option value="EXAM">Exam</option>
-              <option value="COURSE">Course</option>
-              <option value="OTHER">Other</option>
-            </select>
+            />
           </div>
           <button 
             type="submit" 
@@ -268,19 +215,16 @@ const PaymentsManagement = () => {
                   Amount
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Description
+                  Course Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Type
+                  Semester
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
+                  User ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
                 </th>
               </tr>
             </thead>
@@ -294,36 +238,16 @@ const PaymentsManagement = () => {
                     {payment.amount?.toLocaleString()} ₫
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {payment.description}
+                    {payment.courseName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {payment.type}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(payment.status)}`}>
-                      {payment.status}
-                    </span>
+                    {payment.semester}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {payment.createdAt}
+                    {payment.userId}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                    {payment.status === 'PENDING' && (
-                      <button
-                        onClick={() => handleUpdateStatus(payment.id, 'SUCCESS')}
-                        className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded hover:bg-green-200"
-                      >
-                        Approve
-                      </button>
-                    )}
-                    {payment.status === 'SUCCESS' && (
-                      <button
-                        onClick={() => handleUpdateStatus(payment.id, 'FAILED')}
-                        className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded hover:bg-red-200"
-                      >
-                        Refund
-                      </button>
-                    )}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {payment.date}
                   </td>
                 </tr>
               ))}

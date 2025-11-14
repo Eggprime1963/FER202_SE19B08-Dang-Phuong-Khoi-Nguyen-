@@ -64,16 +64,23 @@ The JSON server provides the following endpoints:
 
 ## Redux Integration
 
-- **usersSlice.js**: Configured to fetch from `http://localhost:3001/users`
-- **paymentsSlice.js**: Configured to post to `http://localhost:3001/payments`
+- **API Client**: Centralized axios-based API client in `src/api/`
+  - `apiClient.js`: Base axios configuration with timeout and headers
+  - `index.js`: Exported API functions for users and payments
+- **usersSlice.js**: Configured to use `usersApi.getAll()` from API client
+- **paymentsSlice.js**: Configured to use `paymentsApi.create()` and `paymentsApi.getAll()` from API client
+- **Error Handling**: Axios errors are properly caught and handled with rejectWithValue
 
 ## Features Demonstrated
 
-1. **Async Redux Actions**: Using createAsyncThunk for API calls
-2. **Error Handling**: Proper error states and custom error handling
-3. **Loading States**: Loading indicators during API operations
-4. **Real Data Persistence**: Changes are saved to db-pt2.json file
-5. **CRUD Operations**: Full Create, Read, Update, Delete functionality
+1. **Centralized API Client**: Axios-based API client with proper error handling
+2. **Async Redux Actions**: Using createAsyncThunk for API calls
+3. **Error Handling**: Proper error states and custom error handling
+4. **Loading States**: Loading indicators during API operations
+5. **Real Data Persistence**: Changes are saved to db-pt2.json file
+6. **CRUD Operations**: Full Create, Read, Update, Delete functionality
+7. **Timeout Configuration**: 5-second timeout for API calls
+8. **Consistent Headers**: Proper Content-Type headers for JSON requests
 
 ## Troubleshooting
 

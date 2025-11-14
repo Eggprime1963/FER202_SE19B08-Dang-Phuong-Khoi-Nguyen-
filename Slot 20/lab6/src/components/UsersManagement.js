@@ -20,7 +20,12 @@ const UsersManagement = () => {
   const adminUsers = useSelector(selectAdminUsers)
   const activeUsers = useSelector(selectActiveUsers)
   
-  const [newUser, setNewUser] = useState({ name: '', email: '', isAdmin: false })
+  const [newUser, setNewUser] = useState({ 
+    fullName: '', 
+    username: '', 
+    password: '',
+    role: 'user' 
+  })
 
 
 
@@ -34,14 +39,19 @@ const UsersManagement = () => {
 
   const handleAddUser = (e) => {
     e.preventDefault()
-    if (newUser.name && newUser.email) {
+    if (newUser.fullName && newUser.username) {
       const user = {
-        id: Date.now(),
+        id: Date.now().toString(),
         ...newUser,
         status: 'active'
       }
       dispatch(addUserLocal(user))
-      setNewUser({ name: '', email: '', isAdmin: false })
+      setNewUser({ 
+        fullName: '', 
+        username: '', 
+        password: '',
+        role: 'user' 
+      })
     }
   }
 
@@ -76,35 +86,45 @@ const UsersManagement = () => {
         {/* Add User Form */}
         <form onSubmit={handleAddUser} className="flex gap-2 items-end">
           <div>
-            <label className="block text-sm font-medium mb-1">Name</label>
+            <label className="block text-sm font-medium mb-1">Full Name</label>
             <input
               type="text"
-              value={newUser.name}
-              onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+              value={newUser.fullName}
+              onChange={(e) => setNewUser({ ...newUser, fullName: e.target.value })}
               className="px-3 py-2 border rounded"
-              placeholder="Enter name"
+              placeholder="Enter full name"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-sm font-medium mb-1">Username</label>
             <input
-              type="email"
-              value={newUser.email}
-              onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+              type="text"
+              value={newUser.username}
+              onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
               className="px-3 py-2 border rounded"
-              placeholder="Enter email"
+              placeholder="Enter username"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">
-              <input
-                type="checkbox"
-                checked={newUser.isAdmin}
-                onChange={(e) => setNewUser({ ...newUser, isAdmin: e.target.checked })}
-                className="mr-1"
-              />
-              Admin
-            </label>
+            <label className="block text-sm font-medium mb-1">Password</label>
+            <input
+              type="password"
+              value={newUser.password}
+              onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+              className="px-3 py-2 border rounded"
+              placeholder="Enter password"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Role</label>
+            <select
+              value={newUser.role}
+              onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+              className="px-3 py-2 border rounded"
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
           </div>
           <button 
             type="submit"
@@ -148,10 +168,10 @@ const UsersManagement = () => {
                   ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
+                  Full Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
+                  Username
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -171,10 +191,10 @@ const UsersManagement = () => {
                     {user.id}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {user.name}
+                    {user.fullName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {user.email}
+                    {user.username}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
@@ -187,23 +207,23 @@ const UsersManagement = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      user.isAdmin 
+                      user.role === 'admin' 
                         ? 'bg-blue-100 text-blue-800' 
                         : 'bg-gray-100 text-gray-800'
                     }`}>
-                      {user.isAdmin ? 'Admin' : 'User'}
+                      {user.role === 'admin' ? 'Admin' : 'User'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
                       onClick={() => handleToggleAdmin(user.id)}
                       className={`px-3 py-1 text-xs rounded ${
-                        user.isAdmin 
+                        user.role === 'admin' 
                           ? 'bg-red-100 text-red-800 hover:bg-red-200' 
                           : 'bg-blue-100 text-blue-800 hover:bg-blue-200'
                       }`}
                     >
-                      {user.isAdmin ? 'Remove Admin' : 'Make Admin'}
+                      {user.role === 'admin' ? 'Remove Admin' : 'Make Admin'}
                     </button>
                   </td>
                 </tr>

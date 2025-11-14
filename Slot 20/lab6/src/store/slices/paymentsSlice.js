@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { paymentsApi } from '../../api'
 
 // Initial state for payments management
 const initialState = {
@@ -13,24 +14,12 @@ export const createPayment = createAsyncThunk(
   'payments/createPayment',
   async (paymentData, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:3001/payments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(paymentData)
-      })
-      
-      // Custom error handling for 402 Payment Required
-      if (response.status === 402) {
+      // Simulate 402 error for large amounts (demonstrate custom error handling)
+      if (paymentData.amount > 2000000) {
         return rejectWithValue('Tài khoản không đủ tiền')
       }
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
+      const data = await paymentsApi.create(paymentData)
       return data
     } catch (error) {
       return rejectWithValue(error.message)
@@ -43,13 +32,7 @@ export const fetchPayments = createAsyncThunk(
   'payments/fetchPayments',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/payments')
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
+      const data = await paymentsApi.getAll()
       return data
     } catch (error) {
       return rejectWithValue(error.message)

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { usersApi } from '../../api'
 
 // Initial state for users management
 const initialState = {
@@ -12,13 +13,7 @@ export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:3001/users')
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
+      const data = await usersApi.getAll()
       return data
     } catch (error) {
       return rejectWithValue(error.message)
@@ -36,7 +31,7 @@ const usersSlice = createSlice({
       const { userId } = action.payload
       const user = state.users.find(user => user.id === userId)
       if (user) {
-        user.isAdmin = !user.isAdmin
+        user.role = user.role === 'admin' ? 'user' : 'admin'
       }
     },
     // Clear error state
@@ -81,7 +76,7 @@ export const selectUsersError = (state) => state.users.error
 
 // Derived selectors
 export const selectAdminUsers = (state) => 
-  state.users.users.filter(user => user.isAdmin === true)
+  state.users.users.filter(user => user.role === 'admin')
 
 export const selectActiveUsers = (state) => 
   state.users.users.filter(user => user.status === 'active')
